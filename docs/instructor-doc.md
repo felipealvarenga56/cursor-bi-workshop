@@ -67,7 +67,7 @@ Se `find`, DNS ou política bloquearem a **descoberta de skill pública** na sal
 
 3. Os participantes ainda **abrem** a `SKILL.md` instalada e fazem **@** no Composer para cumprir o resultado de aprendizagem.
 
-Se **MCP** for bloqueado na empresa: faça demo na máquina do facilitador; os participantes usam um **prompt roteirizado** que cita a saída da sua ferramenta, ou cai para discussão de grão só com CSV.
+Se **MCP** for bloqueado na empresa: faça demo na máquina do facilitador; os participantes usam um **prompt roteirizado** que cita a saída da sua ferramenta, ou caem para a mesma discussão de grão só com CSV + `fct_orders.sql`.
 
 ---
 
@@ -135,23 +135,34 @@ Escolha **uma** trilha para a turma inteira.
 
 **Descobrir (facilitador conduz):** onde a org lista MCPs aprovados (ajustes do Cursor, wiki interna); navegação opcional em [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers).
 
-**Critérios de seleção (diga em voz alta):** somente leitura ou baixo risco; sem segredos no repositório; VPN/VPC se for Redshift.
+**Critérios de seleção (diga em voz alta):** somente leitura ou baixo risco; sem segredos no repositório; payoff claro para analistas; VPN/VPC se for Redshift.
 
-**Trilha A — Sem Redshift ao vivo (mais fácil):**  
-- Ex.: MCP **Postgres** com Docker local, ou **filesystem** / **fetch** / **docs** se não puderem banco.  
-- **Aplicar:** o prompt tem que usar primeiro a saída da ferramenta — ex.: listar colunas, depois confirmar o grão antes de editar `fct_orders`.
+**Trilha padrão — filesystem já configurado no repo (recomendada):**  
+- Use o MCP `workshop-files` deste repositório.  
+- A tarefa não é “ler as primeiras linhas do CSV”; é **provar o grão** de `fct_orders` com evidência.  
+- Prompt-base: ler `seeds/raw_orders.csv` e `models/marts/fct_orders.sql`, verificar se `order_line_id` é único, se `order_id` se repete e explicar por que isso implica grão de linha de pedido.  
+- Follow-up: pedir uma frase curta para o `schema.yml` e qual teste dbt protege melhor esse grão.
 
-**Trilha B — Redshift dev somente leitura:**  
-- MCP ou ferramenta que leia metadados em cluster **read-only**.  
-- **Aplicar:** confirmar grão `order_id` vs linha com o catálogo, depois ajustar SQL se precisar.
+**Trilha avançada — MCP público `dbt-mcp` (se já estiver aprovado e pronto):**  
+- Use o [dbt MCP server](https://github.com/dbt-labs/dbt-mcp) da dbt Labs.  
+- Mostre lineage, model health e sinais de testes para `fct_orders` / marts.  
+- Prompt-base: listar pais e filhos de `fct_orders`, mostrar health/testes disponíveis e explicar por que isso é mais útil no dia a dia do que um filesystem genérico.  
+- Só use esta trilha se a autenticação/setup estiverem estáveis antes da aula.
+
+**Outras opções públicas aceitáveis (se precisar variar):**  
+- **Fetch MCP** para buscar documentação dbt ao vivo e ancorar uma decisão técnica.  
+- **Git MCP** para revisar o que mudou em `models/marts/` entre `workshop-start` e o estado atual.  
+- Use-as apenas se reforçarem a narrativa do mart; evite demos soltas.
 
 **Participantes:**
 
-1. Instalar o MCP escolhido com o **nome exato + JSON/snippet** do slide.
+1. Usar o MCP escolhido com o **nome exato + snippet** fornecido pelo facilitador.
 2. Rodar um prompt que **obrigatoriamente** incorpore a saída do MCP na resposta.
-3. Ajustar modelos se os metadados revelarem nuance (ex.: grão composto).
+3. Converter a saída em uma decisão concreta de modelagem, documentação ou validação do mart.
 
-**Debrief:** MCP ancora respostas nos **seus** sistemas, não em SQL genérico.
+**Fallback em sala:** se o MCP não subir para todos, faça a chamada na máquina do facilitador, projete a saída e peça para a turma continuar a partir dessa evidência compartilhada. Se nem isso funcionar, façam a mesma análise manual sobre `raw_orders.csv` + `fct_orders.sql`; a aprendizagem continua sendo “decidir com evidência”, só sem a camada MCP.
+
+**Debrief:** MCP ancora respostas nos **seus** sistemas e metadados; o valor real aparece quando ele muda ou valida uma decisão de modelagem.
 
 ---
 
