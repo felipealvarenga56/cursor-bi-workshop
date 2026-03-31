@@ -9,6 +9,7 @@ Hands-on materials for BI analysts: **dbt** modeling with **Cursor** (skills, MC
 - Python 3.10+
 - [Cursor](https://cursor.com/)
 - Git
+- Node.js 18+ (only if you (re)install skills via `npx skills`)
 
 ## Quick start
 
@@ -36,6 +37,16 @@ dbt test
 | `models/` | Staging and marts (you build these in the workshop) |
 | `.cursor/skills/dbt-redshift-bi/` | Example **Skill** for modeling standards |
 | `docs/WORKSHOP.md` | Facilitator / participant outline |
+| `.agents/skills/brainstorming/` | Third-party skill from [obra/superpowers](https://github.com/obra/superpowers) (see below) |
+| `skills-lock.json` | Lockfile for skills installed with the [`skills` CLI](https://skills.sh/) |
+
+### Optional: (re)install brainstorming skill
+
+From the repo root (non-interactive):
+
+```bash
+npx --yes skills add https://github.com/obra/superpowers --skill brainstorming --agent cursor -y
+```
 
 ## Workshop duration
 
