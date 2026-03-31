@@ -94,7 +94,7 @@ If **MCP** install is blocked org-wide: demo from the facilitator machine; parti
 2. Terminal: `dbt debug` → `dbt deps` → `dbt seed`.
 3. **Composer prompt (example):**
 
-   > Using `@seeds/raw_orders.csv` `@seeds/raw_customers.csv` `@seeds/raw_products.csv` and `@dbt_project.yml`, create staging models `stg_orders`, `stg_customers`, `stg_products` in `models/staging/`. Use Redshift-friendly types, explicit casts, and snake_case. Do not invent columns beyond the CSVs.
+   > Using `@seeds/raw_orders.csv` `@seeds/raw_customers.csv` `@seeds/raw_products.csv` and `@dbt_project.yml`, create staging models `stg_orders`, `stg_customers`, `stg_products` in `models/staging/`. Use Redshift-friendly types, explicit casts, and snake_case. Do not invent columns beyond the CSVs. Source seeds with `{{ ref('raw_orders') }}`, `{{ ref('raw_customers') }}`, and `{{ ref('raw_products') }}`.
 
 4. Run `dbt run -s path:models/staging` (or equivalent selection) and fix failures in Chat by @-mentioning the failing file and the error text.
 
@@ -190,9 +190,10 @@ Pick **one** track for the entire room.
 ## Trainer preparation
 
 1. Maintain **golden repo** tags or branches, e.g. `workshop-start` and `workshop-solution`, if you reset rooms between sessions.
-2. **Pre-flight doc** for the cohort: Python, **Node 18+** (for `npx skills`), `dbt-duckdb`, optional Docker for Postgres MCP, VPN for Redshift MCP.
-3. **Pre-vet** fallback skill package(s) and MCP + config; print **Facilitator fallback** above.
-4. **Slides:** Keep deck small (e.g. 5 slides); most time is in the repo + checklist.
+2. **Reference solution:** `facilitator/reference_solution/` contains a passing **staging + marts + `schema.yml`** set (DuckDB). Copy into `models/` to validate `dbt run` / `dbt test` before class; remove those files when rehearsing the blank participant path (see `facilitator/reference_solution/README.md`).
+3. **Pre-flight doc** for the cohort: Python, **Node 18+** (for `npx skills`), `dbt-duckdb`, optional Docker for Postgres MCP, VPN for Redshift MCP.
+4. **Pre-vet** fallback skill package(s) and MCP + config; print **Facilitator fallback** above.
+5. **Slides:** Keep deck small (e.g. 5 slides); most time is in the repo + checklist.
 
 ---
 

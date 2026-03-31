@@ -1,7 +1,7 @@
 # Workshop plan update — design spec
 
 **Date:** 2026-03-31  
-**Status:** Approved (participant confirmed design)  
+**Status:** Implemented (reference solution + docs synced)  
 **Scope:** Cursor BI workshop (`docs/instructor-doc.md`, `docs/WORKSHOP.md`, `README.md`)
 
 ## Problem

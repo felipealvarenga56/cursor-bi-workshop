@@ -87,7 +87,7 @@ dbt seed
 3. Paste this prompt **verbatim**:
 
 ```text
-Using @seeds/raw_orders.csv @seeds/raw_customers.csv @seeds/raw_products.csv and @dbt_project.yml, create staging models stg_orders, stg_customers, stg_products in models/staging/. Use Redshift-friendly types, explicit casts, and snake_case. Do not invent columns beyond the CSVs. Use {{ ref() }} to seeds as appropriate for this dbt version.
+Using @seeds/raw_orders.csv @seeds/raw_customers.csv @seeds/raw_products.csv and @dbt_project.yml, create staging models stg_orders, stg_customers, stg_products in models/staging/. Use Redshift-friendly types, explicit casts, and snake_case. Do not invent columns beyond the CSVs. Source seeds with {{ ref('raw_orders') }}, {{ ref('raw_customers') }}, and {{ ref('raw_products') }} (dbt seed names match the CSV filenames without .csv).
 ```
 
 4. Apply generated files; then run:

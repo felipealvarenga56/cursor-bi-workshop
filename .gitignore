@@ -5,6 +5,7 @@ logs/
 *.duckdb.wal
 .env
 .user.yml
+profiles.yml
 *.pyc
 __pycache__/
 .DS_Store

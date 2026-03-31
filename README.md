@@ -41,6 +41,7 @@ dbt test
 | `docs/instructor-doc.md` | Full facilitator script |
 | `.cursor/mcp.json` | Example **filesystem** MCP scoped to the repo (`workshop-files`) |
 | `.cursor/hooks.json` + `.cursor/hooks/workshop-before-submit.cjs` | Example **beforeSubmitPrompt** hook (requires `@` for mart/dbt prompts) |
+| `facilitator/reference_solution/` | **Facilitator-only** SQL + `schema.yml` to validate dbt (copy into `models/`; see README there) |
 | `.agents/skills/brainstorming/` | Example third-party skill from [obra/superpowers](https://github.com/obra/superpowers) (optional) |
 | `skills-lock.json` | Lockfile when you use the [`skills` CLI](https://skills.sh/) |
 
