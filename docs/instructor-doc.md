@@ -189,7 +189,7 @@ Escolha **uma** trilha para a turma inteira.
 
 ## Preparação do facilitador
 
-1. Manter tags ou branches **golden repo**, ex.: `workshop-start` e `workshop-solution`, se resetar salas entre sessões.
+1. **Branches no Git:** `workshop-start` = mesmo estado de `models/` que o participante no início (só `.gitkeep`). `workshop-complete` = staging + marts já preenchidos (solução de referência) para validar `dbt` ou demonstrar o resultado. Ver `README.md`. Opcional: tags se preferir em vez de branch fixo.
 2. **Solução de referência:** `facilitator/reference_solution/` tem um conjunto **staging + marts + `schema.yml`** que passa no DuckDB. Copie para `models/` para validar `dbt run` / `dbt test` antes da aula; remova esses arquivos ao ensaiar o caminho “participante do zero” (veja `facilitator/reference_solution/README.md`).
 3. **Pré-voo da turma:** Python, **Node 18+** (para `npx skills`), `dbt-duckdb`, Docker opcional para MCP Postgres, VPN para MCP Redshift.
 4. **Pré-avaliar** pacote(s) de skill de fallback e MCP + config; imprima o **Plano B** acima.
