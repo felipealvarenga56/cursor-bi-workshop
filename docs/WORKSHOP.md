@@ -8,10 +8,44 @@ Este arquivo é o **roteiro do participante**: execute cada etapa **na ordem**. 
 
 ---
 
-## Passo 0 — Abrir o projeto corretamente
+## Passo 0 — Git, branch e abrir o projeto
+
+### 0.1 Escolher o branch (antes de abrir o Cursor)
+
+O repositório tem branches para **recomeçar do zero** ou **ver o estado já resolvido** (somente SQL/dbt — não inclui skills instaladas via `npx`).
+
+| Branch | Quando usar |
+|--------|-------------|
+| **`main`** ou **`workshop-start`** | Estado **inicial** do lab: `models/staging` e `models/marts` só com `.gitkeep`, **sem** arquivos `.sql` gerados. Use este roteiro **a partir do Bloco B** gerando tudo no Cursor. |
+| **`workshop-complete`** | Staging + marts + `schema.yml` **já** em `models/` (solução de referência). Útil para **validar** `dbt seed` / `dbt run` / `dbt test` ou ver o resultado esperado **sem** refazer os blocos no Composer. **Não** use se quiser simular o participante do zero. |
+
+**Participante seguindo este arquivo do início (recomendado):**
+
+```bash
+git checkout workshop-start
+git pull origin workshop-start
+```
+
+**Facilitador recomeçando após testes no branch completo:**
+
+```bash
+git checkout workshop-start
+git reset --hard origin/workshop-start
+```
+
+**Só para conferir o “fim” dos modelos base (staging + marts):**
+
+```bash
+git checkout workshop-complete
+git pull origin workshop-complete
+```
+
+O branch padrão no GitHub é **`main`**; para `models/`, ele está alinhado ao **`workshop-start`**.
+
+### 0.2 Abrir o projeto no Cursor
 
 1. **Arquivo → Abrir pasta** e selecione a **raiz do repo** (a pasta que contém `dbt_project.yml`).
-2. Quando o Cursor perguntar, marque a pasta como **workspace confiável** se quiser que os **hooks do projeto** (Passo 14) rodem.  
+2. Quando o Cursor perguntar, marque a pasta como **workspace confiável** se quiser que os **hooks do projeto** (Bloco E) rodem.  
    <!-- Hooks em `.cursor/hooks.json` só rodam em workspaces confiáveis; veja [documentação de hooks do Cursor](https://cursor.com/docs/hooks). -->
 
 ---
