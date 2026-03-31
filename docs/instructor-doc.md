@@ -31,7 +31,7 @@ Use **um cenário ponta a ponta** para Skills, MCP e hooks parecerem conectados 
 
 | Ativo | Finalidade |
 |--------|------------|
-| `seeds/raw_orders.csv`, `raw_customers.csv`, `raw_products.csv` | Datasets sintéticos pequenos |
+| `seeds/raw_orders.csv`, `raw_customers.csv`, `raw_products.csv` | Datasets sintéticos (~3000 linhas de pedido, 300 clientes, 500 produtos) |
 | `models/staging/`, `models/marts/` | Onde os participantes criam modelos |
 | `dbt_project.yml` | Configuração do projeto |
 
