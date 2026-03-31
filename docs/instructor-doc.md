@@ -2,7 +2,9 @@
 
 **Audience:** Business intelligence analysts who model data and build facts and dimensions with **dbt** and **Redshift**.  
 **Duration:** ~2 hours.  
-**Repo materials:** This repository (`seeds/`, dbt project, example Skill under `.cursor/skills/`).
+**Repo materials:** This repository (`seeds/`, dbt project, **team-template** skill under `.cursor/skills/dbt-redshift-bi/`).
+
+**Design reference:** `docs/superpowers/specs/2026-03-31-workshop-plan-design.md`
 
 ---
 
@@ -11,10 +13,11 @@
 By the end, participants should be able to:
 
 1. Use **Chat**, **Composer**, and **@-mentions** (files, folders, docs) for dbt work.
-2. Install and use a **Skill** so the AI follows team modeling standards consistently.
-3. Connect **one MCP** so answers can be grounded in real structure (schemas, tables, or internal docs).
-4. Enable a **Hook** so a simple guardrail runs automatically (e.g. naming, docs, or context reminders).
-5. Apply all of the above on a small simulated mart: one fact + two dimensions + tests.
+2. **Discover** a public skill ([skills.sh](https://skills.sh/), `npx skills find`), **install** it non-interactively for Cursor (`npx skills add … --agent cursor -y`), and **use** it in prompts via `@` to the installed `SKILL.md`.
+3. Recognize a **team-authored** skill in-repo (example: `.cursor/skills/dbt-redshift-bi/`) as the pattern for internal standards.
+4. **Discover, install, and use** **one MCP** with clear selection criteria (read-only, policy-safe) so answers are grounded in catalogs or docs.
+5. **Discover, install, and trigger** **one Hook** as a habit guardrail (e.g. context or `dbt parse`).
+6. Apply all of the above on a small simulated mart: one fact + two dimensions + tests.
 
 ---
 
@@ -43,13 +46,28 @@ Use **one end-to-end scenario** so Skills, MCP, and hooks feel connected—not l
 | Block | Time | Focus |
 |--------|------|--------|
 | **A. Cursor map** | 15 min | Chat vs Composer, context (@files, @folders, Cmd/Ctrl+K), rules vs skills (overview). |
-| **B. Hands-on: dbt from seeds** | 25 min | Open project, `dbt seed`, generate staging in Composer with @seeds + @dbt_project. |
-| **C. First Skill** | 20 min | Use the project Skill (`dbt-redshift-bi`). Regenerate or extend a model and compare quality. |
-| **D. First MCP** | 25 min | Install **one** MCP (choose one track for the whole room). Re-run a prompt that uses catalog or docs. |
-| **E. First Hook** | 15 min | Add a small hook (e.g. pre-submit reminder or post-edit nudge). One guided exercise. |
-| **F. Capstone + Q&A** | 20 min | Full slice: e.g. add date key / `dim_date` + document grain in `schema.yml` using skill + MCP + hook awareness. |
+| **B. Hands-on: dbt from seeds** | 25 min | Open project, `dbt seed`, generate staging in Composer with @seeds + @dbt_project. **No public skill required yet.** |
+| **C. Public Skill** | 20 min | **Discover** (skills.sh / `npx skills find`) → **evaluate** → **install** → **apply** to marts; then **team template** walkthrough (`.cursor/skills/dbt-redshift-bi/`). |
+| **D. MCP** | 25 min | **Discover** (Cursor MCP + allowlist / [MCP servers catalog](https://github.com/modelcontextprotocol/servers)) → **pick one** for the room → **install** → **apply** with a prompt that requires tool output. |
+| **E. Hook** | 15 min | **Discover** (Cursor hooks docs for their version) → **install** one minimal hook → **trigger** with a vague prompt. |
+| **F. Capstone + Q&A** | 20 min | Date key / `dim_date` + grain in `schema.yml` using **public** skill + MCP + hook awareness. |
 
 **Buffer:** If installs are slow, shorten the capstone and keep Q&A.
+
+---
+
+## Facilitator fallback (print this)
+
+If `find`, DNS, or policy blocks **public skill** discovery in the room:
+
+1. **Pre-vet** one or two packages from [skills.sh](https://skills.sh/) before class (keywords: `dbt`, `sql`, `analytics`).
+2. Distribute the exact install line, for example:
+
+   `npx --yes skills add <github-url-or-package> --skill <skill-name> --agent cursor -y`
+
+3. Participants still **open** the installed `SKILL.md` and **@** it in Composer so the learning outcome holds.
+
+If **MCP** install is blocked org-wide: demo from the facilitator machine; participants use a **scripted prompt** that quotes your tool output, or fall back to CSV-only grain discussion.
 
 ---
 
@@ -66,7 +84,7 @@ Use **one end-to-end scenario** so Skills, MCP, and hooks feel connected—not l
 
 ## Hands-on script (facilitator + participants)
 
-### Part 1 — Baseline (no Skill emphasis yet)
+### Part 1 — Baseline (no public skill yet)
 
 **Say:** *We only attach context that exists on disk.*
 
@@ -84,51 +102,67 @@ Use **one end-to-end scenario** so Skills, MCP, and hooks feel connected—not l
 
 ---
 
-### Part 2 — First Skill
+### Part 2 — Public Skill (primary exercise)
 
-**Goal:** Encode standards once (grain, keys, naming, minimum tests).
+**Goal:** Repeatable **discover → evaluate → install → apply** for a **public** skill; contrast with a **team** skill in git.
 
 **Participants:**
 
-1. Open `.cursor/skills/dbt-redshift-bi/SKILL.md` and ensure Cursor picks up the skill (per current Cursor UI: Skills / project skills).
-2. **Composer prompt (example):**
+1. **Discover:** Visit [skills.sh](https://skills.sh/) or run `npx skills find dbt` (try `sql`, `analytics` if needed). Pick **one** skill that plausibly helps dbt modeling or SQL analytics.
+2. **Evaluate (quick rubric):** Repo or maintainer credibility, relevance to facts/dimensions/tests, fit with company policy. Skim `SKILL.md` on GitHub before installing.
+3. **Install (non-interactive):**
 
-   > Follow `@.cursor/skills/dbt-redshift-bi/SKILL.md`. Build `dim_customer`, `dim_product`, and `fct_orders` at line grain from staging. Add `schema.yml` with descriptions and the tests required by the skill.
+   `npx --yes skills add <source> --skill <skill-name> --agent cursor -y`
 
-3. Run `dbt test` and iterate.
+   Use the **exact** `--skill` name the package exposes; `--agent cursor -y` avoids the interactive agent picker.
 
-**Debrief:** Skills scale the team’s review checklist.
+4. **Locate:** Find the installed `SKILL.md` (often `.agents/skills/<skill-name>/` after the [skills CLI](https://skills.sh/) copy step). In Composer, **@** that file explicitly.
+5. **Composer prompt (example):**
+
+   > Follow `@.agents/skills/<skill-name>/SKILL.md` (adjust path to match install). Build `dim_customer`, `dim_product`, and `fct_orders` at **order line** grain from staging. Add `models/marts/schema.yml` with descriptions and tests aligned to that skill.
+
+6. Run `dbt test` and iterate.
+
+**Team template (~3–5 min):** Open `.cursor/skills/dbt-redshift-bi/SKILL.md`. **Say:** *This is what you commit when internal standards must win over generic internet skills.*
+
+**Debrief:** Public skills bootstrap consistency; team skills encode **your** warehouse and review norms.
 
 ---
 
-### Part 3 — First MCP
+### Part 3 — MCP
 
 Pick **one** track for the entire room.
 
+**Discover (facilitator leads):** Where your org lists approved MCPs (Cursor settings, internal wiki); optional browsing [github.com/modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers).
+
+**Selection criteria (state aloud):** Read-only or low-risk; no secrets in repo; VPN/VPC rules if hitting Redshift.
+
 **Track A — No live Redshift (easiest):**  
-- Example: **Postgres** MCP against local Docker with the same data as tables, or a **docs / filesystem** MCP if databases are not allowed.  
-- Prompt idea: list columns for a “raw” table and confirm grain before writing `fct_orders`.
+- Example: **Postgres** MCP against local Docker with the same data as tables, or **filesystem** / **fetch** / **docs** MCP if databases are not allowed.  
+- **Apply:** Prompt must use tool output first — e.g. list columns for a table, then confirm grain before editing `fct_orders`.
 
 **Track B — Read-only dev Redshift:**  
-- MCP or tooling that can read **information_schema** (or equivalent) on a **read-only** dev cluster.  
-- Prompt idea: confirm whether `order_id` is unique at line grain using warehouse metadata.
+- MCP or tooling that can read metadata on a **read-only** dev cluster.  
+- **Apply:** Confirm `order_id` vs line grain using catalog output, then adjust SQL if needed.
 
 **Participants:**
 
-1. Install the chosen MCP from Cursor settings (provide exact name + config snippet in your slide deck).
-2. Run one prompt that **must** incorporate MCP output (e.g. column list) in the answer.
-3. Adjust the fact model if metadata reveals a nuance (e.g. composite grain).
+1. Install the chosen MCP using your slide **exact name + config JSON/snippet**.
+2. Run one prompt that **must** incorporate MCP output in the answer.
+3. Adjust models if metadata reveals a nuance (e.g. composite grain).
 
 **Debrief:** MCP grounds answers in *your* systems, not generic SQL.
 
 ---
 
-### Part 4 — First Hook
+### Part 4 — Hook
+
+**Discover:** Cursor documentation for **hooks** (events vary by version). Pick **one** event the room can rely on.
 
 **Examples that work well in class:**
 
-- **Before submit:** remind to attach `@schema.yml` when editing marts.
-- **After save / other event** (per Cursor version): nudge to run `dbt parse` or similar.
+- **Before submit:** remind to attach `@schema.yml` (or `@models/marts/`) when editing marts.
+- **After save / other event** (per docs): nudge to run `dbt parse` or `dbt compile`.
 
 **Participants:**
 
@@ -145,19 +179,19 @@ Pick **one** track for the entire room.
 
 **Must reference:**
 
-- Skill (naming + tests).
-- MCP (if Track B: confirm date column nulls/types).
+- **Public** skill (naming + tests via `@` to installed `SKILL.md`).
+- MCP (if Track B: confirm date column nulls/types from metadata).
 - Hook (participants should notice the nudge if they submit a vague request).
 
-**Success criteria:** `dbt test` passes on the new slice; short README or YAML description states grain clearly.
+**Success criteria:** `dbt test` passes on the new slice; YAML (or README) states grain clearly.
 
 ---
 
 ## Trainer preparation
 
 1. Maintain **golden repo** tags or branches, e.g. `workshop-start` and `workshop-solution`, if you reset rooms between sessions.
-2. **Pre-flight doc** for the cohort: Python version, `dbt-duckdb`, optional Docker for Postgres MCP, VPN for Redshift MCP.
-3. **Fallback:** If MCP install is blocked org-wide, demo MCP from the facilitator machine and keep participants on CSV-only prompts for Part 3.
+2. **Pre-flight doc** for the cohort: Python, **Node 18+** (for `npx skills`), `dbt-duckdb`, optional Docker for Postgres MCP, VPN for Redshift MCP.
+3. **Pre-vet** fallback skill package(s) and MCP + config; print **Facilitator fallback** above.
 4. **Slides:** Keep deck small (e.g. 5 slides); most time is in the repo + checklist.
 
 ---
@@ -168,16 +202,18 @@ Pick **one** track for the entire room.
 |------|--------|
 | **Chat** | Questions, explain errors, single-file help |
 | **Composer** | New models, YAML, multi-file refactors |
-| **@-mentions** | Ground truth from the repo |
-| **Skill** | Team standards and workflows |
-| **MCP** | Live systems and catalogs |
+| **@-mentions** | Ground truth from the repo (and from installed `SKILL.md`) |
+| **Public skill** | Discover on skills.sh, install with `npx skills add … --agent cursor -y` |
+| **Team skill** | Internal standards in `.cursor/skills/` (version in git) |
+| **MCP** | Live systems and catalogs (pick read-only, policy-approved) |
 | **Hook** | Guardrails and habits |
 
 ---
 
 ## Relation to other docs
 
-- **`README.md`** — Participant setup (venv, `dbt`, profiles, `seed` / `run` / `test`).
-- **`WORKSHOP.md`** — Short agenda and copy-paste Composer prompts.
+- **`README.md`** — Participant setup (venv, `dbt`, profiles, Node for skills CLI).
+- **`WORKSHOP.md`** — Short agenda and copy-paste Composer prompts (public skill path placeholder).
+- **`docs/superpowers/specs/2026-03-31-workshop-plan-design.md`** — Approved design for this plan.
 
 This file (**`instructor-doc.md`**) is the full facilitator plan and timing.
