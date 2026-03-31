@@ -1,0 +1,23 @@
+name: "cursor_bi_workshop"
+version: "1.0.0"
+config-version: 2
+
+profile: "cursor_bi_workshop"
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  cursor_bi_workshop:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table

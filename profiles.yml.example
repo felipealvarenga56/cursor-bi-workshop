@@ -1,0 +1,11 @@
+# Copy to ~/.dbt/profiles.yml (merge with existing profiles if you already have one).
+# On Windows: %USERPROFILE%\.dbt\profiles.yml
+
+cursor_bi_workshop:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      # Use an absolute path if relative path fails; run dbt from this repo root.
+      path: "./workshop.duckdb"
+      schema: main

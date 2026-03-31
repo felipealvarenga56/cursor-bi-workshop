@@ -1,0 +1,6 @@
+product_id,sku,name,category,unit_price
+101,SKU-A1,Widget A,Hardware,19.99
+102,SKU-B2,Widget B,Hardware,29.50
+103,SKU-C3,Analytics Book,Books,45.00
+104,SKU-D4,Consulting Hour,Services,150.00
+105,SKU-E5,Sticker Pack,Merch,5.00

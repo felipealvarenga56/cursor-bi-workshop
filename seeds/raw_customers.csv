@@ -1,0 +1,6 @@
+customer_id,email,country,created_at
+1,alice@example.com,US,2024-01-05
+2,bob@example.com,UK,2024-02-10
+3,carol@example.com,US,2024-03-01
+4,dan@example.com,DE,2024-03-15
+5,eve@example.com,US,2024-04-02
