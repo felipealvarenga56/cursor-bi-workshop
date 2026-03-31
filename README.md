@@ -37,8 +37,10 @@ dbt test
 | `seeds/` | Simulated raw extracts (CSV) |
 | `models/` | Staging and marts (you build these in the workshop) |
 | `.cursor/skills/dbt-redshift-bi/` | **Team-template** skill (internal standards example — not the main hands-on skill) |
-| `docs/WORKSHOP.md` | Short agenda and prompts |
+| `docs/WORKSHOP.md` | **Participant runbook** (ordered steps, commands, verbatim prompts) |
 | `docs/instructor-doc.md` | Full facilitator script |
+| `.cursor/mcp.json` | Example **filesystem** MCP scoped to the repo (`workshop-files`) |
+| `.cursor/hooks.json` + `.cursor/hooks/workshop-before-submit.cjs` | Example **beforeSubmitPrompt** hook (requires `@` for mart/dbt prompts) |
 | `.agents/skills/brainstorming/` | Example third-party skill from [obra/superpowers](https://github.com/obra/superpowers) (optional) |
 | `skills-lock.json` | Lockfile when you use the [`skills` CLI](https://skills.sh/) |
 

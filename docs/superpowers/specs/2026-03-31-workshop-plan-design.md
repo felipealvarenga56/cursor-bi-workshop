@@ -62,7 +62,7 @@ If search, DNS, or policy blocks discovery:
 | File | Change |
 |------|--------|
 | `docs/instructor-doc.md` | Outcomes, time table row C, Parts 2–5 scripts, trainer prep (fallback one-pager), cheat sheet row for Skill |
-| `docs/WORKSHOP.md` | Agenda line 3; prompts reference installed public skill path |
+| `docs/WORKSHOP.md` | Full **perfect-path** runbook (step-by-step commands + verbatim prompts + `<!-- comments -->`); golden-path skill `dbt-labs/dbt-agent-skills` → `using-dbt-for-analytics-engineering`; references `.cursor/mcp.json` + `.cursor/hooks.json` |
 | `README.md` | Node prerequisite for Block C; `.cursor/skills/dbt-redshift-bi` described as team template; optional `npx skills find` |
 
 ## Out of scope

@@ -213,7 +213,7 @@ Pick **one** track for the entire room.
 ## Relation to other docs
 
 - **`README.md`** — Participant setup (venv, `dbt`, profiles, Node for skills CLI).
-- **`WORKSHOP.md`** — Short agenda and copy-paste Composer prompts (public skill path placeholder).
+- **`WORKSHOP.md`** — **Perfect-path participant runbook**: step order, every command, every Composer/Chat prompt, HTML comments for “why”; includes golden-path skill install and MCP/hook steps aligned with committed `.cursor/mcp.json` and `.cursor/hooks.json`.
 - **`docs/superpowers/specs/2026-03-31-workshop-plan-design.md`** — Approved design for this plan.
 
 This file (**`instructor-doc.md`**) is the full facilitator plan and timing.
