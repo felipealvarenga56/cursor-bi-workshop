@@ -4,6 +4,25 @@ Material prático para analistas de BI: modelagem com **dbt** no **Cursor** (ski
 
 **Repositório:** [https://github.com/felipealvarenga56/cursor-bi-workshop](https://github.com/felipealvarenga56/cursor-bi-workshop)
 
+## Branches Git (ensaiar do zero ou ver o “fim”)
+
+| Branch | Quando usar |
+|--------|-------------|
+| **`main`** ou **`workshop-start`** | Estado **inicial** do participante: pastas `models/staging` e `models/marts` só com placeholders (`.gitkeep`), sem SQL gerado. Use para **recomeçar** o lab do zero: `git checkout workshop-start` e `git pull`, ou `git reset --hard origin/workshop-start`. |
+| **`workshop-complete`** | Estado **após** os blocos de staging + marts da solução de referência: SQL e `schema.yml` já em `models/`. Rode `dbt seed` → `dbt run` → `dbt test` para validar ambiente ou **mostrar o resultado esperado**. Não é o fluxo “do zero” do Cursor. |
+
+```bash
+# Voltar ao ponto de partida (como no início do WORKSHOP.md)
+git checkout workshop-start
+git pull origin workshop-start
+
+# Ver o repositório com modelos já materializados
+git checkout workshop-complete
+git pull origin workshop-complete
+```
+
+O branch padrão do GitHub continua sendo **`main`** (igual ao `workshop-start` no que diz respeito a `models/`).
+
 ## Pré-requisitos
 
 - Python 3.10+
