@@ -1,17 +1,17 @@
-# Cursor BI Workshop
+# Workshop Cursor BI
 
-Hands-on materials for BI analysts: **dbt** modeling with **Cursor** (skills, MCP, hooks). SQL targets **Redshift** in production; local runs use **DuckDB** so you can execute `dbt` without a warehouse.
+Material prático para analistas de BI: modelagem com **dbt** no **Cursor** (skills, MCP, hooks). O SQL mira **Redshift** em produção; localmente usamos **DuckDB** para rodar o `dbt` sem warehouse.
 
-**Repository:** [https://github.com/felipealvarenga56/cursor-bi-workshop](https://github.com/felipealvarenga56/cursor-bi-workshop)
+**Repositório:** [https://github.com/felipealvarenga56/cursor-bi-workshop](https://github.com/felipealvarenga56/cursor-bi-workshop)
 
-## Prerequisites
+## Pré-requisitos
 
 - Python 3.10+
 - [Cursor](https://cursor.com/)
 - Git
-- **Node.js 18+** — required for the workshop **public skill** block (`npx skills find` / `npx skills add`)
+- **Node.js 18+** — necessário no bloco de **skill pública** (`npx skills find` / `npx skills add`)
 
-## Quick start
+## Início rápido
 
 ```bash
 python -m venv .venv
@@ -20,7 +20,7 @@ pip install dbt-duckdb
 copy profiles.yml.example %USERPROFILE%\.dbt\profiles.yml
 ```
 
-Edit `%USERPROFILE%\.dbt\profiles.yml` if needed (paths are relative to your machine). From the repo root:
+Edite `%USERPROFILE%\.dbt\profiles.yml` se precisar (caminhos relativos à sua máquina). Na raiz do repositório:
 
 ```bash
 dbt debug
@@ -30,38 +30,38 @@ dbt run
 dbt test
 ```
 
-## Repo layout
+## Estrutura do repositório
 
-| Path | Purpose |
-|------|--------|
-| `seeds/` | Simulated raw extracts (CSV) |
-| `models/` | Staging and marts (you build these in the workshop) |
-| `.cursor/skills/dbt-redshift-bi/` | **Team-template** skill (internal standards example — not the main hands-on skill) |
-| `docs/WORKSHOP.md` | **Participant runbook** (ordered steps, commands, verbatim prompts) |
-| `docs/instructor-doc.md` | Full facilitator script |
-| `.cursor/mcp.json` | Example **filesystem** MCP scoped to the repo (`workshop-files`) |
-| `.cursor/hooks.json` + `.cursor/hooks/workshop-before-submit.cjs` | Example **beforeSubmitPrompt** hook (requires `@` for mart/dbt prompts) |
-| `facilitator/reference_solution/` | **Facilitator-only** SQL + `schema.yml` to validate dbt (copy into `models/`; see README there) |
-| `.agents/skills/brainstorming/` | Example third-party skill from [obra/superpowers](https://github.com/obra/superpowers) (optional) |
-| `skills-lock.json` | Lockfile when you use the [`skills` CLI](https://skills.sh/) |
+| Caminho | Finalidade |
+|---------|------------|
+| `seeds/` | Extrações brutas simuladas (CSV) |
+| `models/` | Staging e marts (vocês criam no workshop) |
+| `.cursor/skills/dbt-redshift-bi/` | Skill de **template de time** (exemplo de norma interna — não é a skill principal do hands-on) |
+| `docs/WORKSHOP.md` | **Roteiro do participante** (passos ordenados, comandos, prompts literais) — **pt-BR** |
+| `docs/instructor-doc.md` | Script completo do facilitador — **pt-BR** |
+| `.cursor/mcp.json` | Exemplo de MCP **filesystem** no repositório (`workshop-files`) |
+| `.cursor/hooks.json` + `.cursor/hooks/workshop-before-submit.cjs` | Exemplo de hook **beforeSubmitPrompt** (pede `@` em prompts de mart/dbt) |
+| `facilitator/reference_solution/` | **Só facilitador:** SQL + `schema.yml` para validar o dbt (copiar para `models/`; ver README lá) |
+| `.agents/skills/brainstorming/` | Skill de terceiros de [obra/superpowers](https://github.com/obra/superpowers) (opcional) |
+| `skills-lock.json` | Lockfile ao usar a [CLI `skills`](https://skills.sh/) |
 
-### Public skills (workshop)
+### Skills públicas (workshop)
 
-1. Search on [skills.sh](https://skills.sh/) or run `npx skills find dbt` (try `sql`, `analytics` too).
-2. Install non-interactively for Cursor:
+1. Busque em [skills.sh](https://skills.sh/) ou rode `npx skills find dbt` (tente também `sql`, `analytics`).
+2. Instale de forma não interativa no Cursor:
 
 ```bash
-npx --yes skills add <package-or-github-url> --skill <skill-name> --agent cursor -y
+npx --yes skills add <pacote-ou-url-github> --skill <nome-da-skill> --agent cursor -y
 ```
 
-3. In Composer, `@`-mention the installed `SKILL.md` (path is printed by the CLI; often `.agents/skills/<skill-name>/`).
+3. No Composer, faça `@` na `SKILL.md` instalada (o caminho aparece na saída da CLI; muitas vezes `.agents/skills/<nome-da-skill>/`).
 
-### Optional: (re)install brainstorming skill
+### Opcional: reinstalar a skill brainstorming
 
 ```bash
 npx --yes skills add https://github.com/obra/superpowers --skill brainstorming --agent cursor -y
 ```
 
-## Workshop duration
+## Duração do workshop
 
-About **2 hours** — see `docs/WORKSHOP.md` and `docs/instructor-doc.md`.
+Cerca de **2 horas** — veja `docs/WORKSHOP.md` e `docs/instructor-doc.md`.

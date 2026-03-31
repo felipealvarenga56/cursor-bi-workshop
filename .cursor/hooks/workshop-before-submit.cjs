@@ -28,8 +28,8 @@ if (needsContext && !hasAt && !hasAttachment) {
   process.stdout.write(
     JSON.stringify({
       continue: false,
-      user_message:
-        'Workshop hook: @-mention at least one file (e.g. @seeds/raw_orders.csv or @models/marts/schema.yml) before asking for mart or dbt changes.',
+        user_message:
+        'Hook do workshop: use @ em pelo menos um arquivo (ex.: @seeds/raw_orders.csv ou @models/marts/schema.yml) antes de pedir alterações em mart ou dbt.',
     })
   );
 } else {

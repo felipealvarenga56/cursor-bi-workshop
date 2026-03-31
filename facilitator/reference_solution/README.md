@@ -1,23 +1,23 @@
-# Reference solution (facilitators only)
+# Solução de referência (somente facilitadores)
 
-These files are a **working end state** for Blocks B–C (staging + marts + tests) so you can:
+Estes arquivos são um **estado final funcional** dos Blocos B–C (staging + marts + testes) para você:
 
-- Sanity-check `dbt run` / `dbt test` before a session.
-- Recover a room if generation goes wrong (copy into `models/staging/` and `models/marts/`).
+- Validar `dbt run` / `dbt test` antes da sessão.
+- Recuperar uma sala se a geração no Cursor sair errada (copiar para `models/staging/` e `models/marts/`).
 
-**Do not** ship this to participants as the default `models/` layout if you want them to generate SQL in Cursor; keep copies only here or on a `workshop-solution` branch.
+**Não** entregue isso aos participantes como layout padrão de `models/` se a ideia é eles gerarem SQL no Cursor; mantenha as cópias só aqui ou numa branch `workshop-solution`.
 
-## How to validate locally
+## Como validar localmente
 
-From repo root (after `dbt seed`):
+Na raiz do repo (depois de `dbt seed`):
 
-1. Copy `staging/*.sql` → `models/staging/`
-2. Copy `marts/*.sql` and `marts/schema.yml` → `models/marts/`
-3. Run:
+1. Copie `staging/*.sql` → `models/staging/`
+2. Copie `marts/*.sql` e `marts/schema.yml` → `models/marts/`
+3. Rode:
 
 ```bash
 dbt run -s path:models/staging path:models/marts
 dbt test -s path:models/marts
 ```
 
-Remove or rename these copies when rehearsing the blank “participant” path.
+Remova ou renomeie essas cópias ao ensaiar o caminho “participante do zero”.
