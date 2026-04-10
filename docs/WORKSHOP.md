@@ -72,33 +72,43 @@ Faça uma vez para o restante do workshop fluir:
 
 Nenhum comando de shell no Bloco A.
 
+<!-- O Bloco B é onde o dbt roda de fato; aqui começam instalação, seeds e modelos. -->
+
 ---
 
 ## Bloco B — Ambiente, dbt, staging (~25 min)
 
+Este bloco é o **primeiro em que o lab fica executável** — instalação, profile, seeds e staging validado — e é o ponto de partida para gerar SQL no Cursor quando você usa `workshop-start` / `main` (Passo 0.1). Sem o Bloco B, não há dados materializados no DuckDB nem modelos `stg_*` testados; marts, testes, MCP e capstone ficam sem alicerce.
+
+<!-- Resumo para facilitador: B encadeia ambiente → dados → primeira camada de modelagem. O Bloco C pressupõe staging já criado e rodando. -->
+
 ### B1 — venv Python e dbt
 
+O venv isola dependências deste repo; `dbt-duckdb` é o adapter alinhado ao profile DuckDB deste lab. Sem este passo, não há CLI `dbt` utilizável neste projeto.
+
 ```bash
-python -m venv .venv
+python -m venv .venv #Isolated Python env so this repo’s dbt install does not clash with other projects on the machine
 ```
 
-<!-- Cria um ambiente Python isolado dentro do repo para não misturar dbt e dependências deste workshop com outras instalações da máquina. -->
+Cria um ambiente Python isolado dentro do repo para não misturar dbt e dependências deste workshop com outras instalações da máquina.
 
 ```bash
 # Windows (cmd ou PowerShell):
 .venv\Scripts\activate
 ```
 
-<!-- Ativa o venv; depois disso, `pip` e `dbt` passam a instalar/rodar dentro desse ambiente isolado. -->
+Ativa o venv; depois disso, `pip` e `dbt` passam a instalar/rodar dentro desse ambiente isolado.
 
 ```bash
 pip install dbt-duckdb
 ```
 
-<!-- Isola dependências; `dbt-duckdb` bate com o tipo de profile deste repo. -->
-<!-- Instala o adapter e o core do dbt necessários para rodar localmente contra DuckDB neste lab. -->
+Isola dependências; `dbt-duckdb` bate com o tipo de profile deste repo. 
+Instala o adapter e o core do dbt necessários para rodar localmente contra DuckDB neste lab.
 
 ### B2 — Profile dbt (uma vez)
+
+Odbt procura `profiles.yml` no diretório padrão do usuário (ex.: `%USERPROFILE%\.dbt` no Windows). O profile `cursor_bi_workshop` deve coincidir com `dbt_project.yml`; o `path` do DuckDB deve ser gravável e coerente com o diretório de trabalho (raiz do repo). Sem profile correto, `dbt debug` e os runs falham ou apontam para o banco errado.
 
 No **PowerShell** (terminal padrão do Cursor no Windows), `%USERPROFILE%` e `copy` não funcionam como no CMD — use:
 
@@ -107,7 +117,7 @@ New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.dbt"
 Copy-Item profiles.yml.example "$env:USERPROFILE\.dbt\profiles.yml"
 ```
 
-<!-- Cria a pasta padrão de configuração do dbt no Windows e copia um profile inicial para o local onde o dbt realmente procura esse arquivo. -->
+Cria a pasta padrão de configuração do dbt no Windows e copia um profile inicial para o local onde o dbt realmente procura esse arquivo. 
 
 No **Prompt de comando (cmd.exe)**:
 
@@ -116,41 +126,45 @@ mkdir %USERPROFILE%\.dbt 2>nul
 copy profiles.yml.example %USERPROFILE%\.dbt\profiles.yml
 ```
 
-<!-- Mesma ideia do bloco acima, mas com sintaxe de CMD em vez de PowerShell. -->
+Mesma ideia do bloco acima, mas com sintaxe de CMD em vez de PowerShell.
 
-<!-- Faça merge manual se você já tiver um `profiles.yml` global. O nome do profile deve continuar `cursor_bi_workshop` para bater com `dbt_project.yml`. -->
+Faça merge manual se você já tiver um `profiles.yml` global. O nome do profile deve continuar `cursor_bi_workshop` para bater com `dbt_project.yml`.
 
 Abra `%USERPROFILE%\.dbt\profiles.yml` e confira se o `path` do DuckDB aponta para um arquivo gravável (o padrão `./workshop.duckdb` é relativo ao **diretório de onde você roda o `dbt`** — permaneça na raiz do repo).
 
 ### B3 — Pacotes dbt e seeds
 
+`dbt debug` confere profile, adapter e caminho do banco antes de investir em modelos; `dbt deps` baixa pacotes de `packages.yml` (ex.: dbt_utils) para macros e testes; `dbt seed` materializa os CSVs que o staging lê via `ref()`. Ordem: debug → deps → seed.
+
 ```bash
 dbt debug
 ```
 
-<!-- Verifica se profile, adapter, caminho do banco e credenciais locais estão corretos antes de rodar transformações. -->
+Verifica se profile, adapter, caminho do banco e credenciais locais estão corretos antes de rodar transformações.
 
 ```bash
 dbt deps
 ```
 
-<!-- Baixa pacotes declarados em `packages.yml`, como `dbt_utils`, para que macros referenciadas no projeto existam localmente. -->
+Baixa pacotes declarados em `packages.yml`, como `dbt_utils`, para que macros referenciadas no projeto existam localmente.
 
 ```bash
 dbt seed
 ```
 
-<!-- `deps` baixa o `dbt_utils` do `packages.yml`. `seed` carrega os CSVs no DuckDB. -->
-<!-- Materializa os CSVs de `seeds/` como tabelas no DuckDB; isso cria as entradas que os modelos staging vão ler via `ref()`. -->
+`deps` baixa o `dbt_utils` do `packages.yml`. `seed` carrega os CSVs no DuckDB.
+Materializa os CSVs de `seeds/` como tabelas no DuckDB; isso cria as entradas que os modelos staging vão ler via `ref()`.
 
 ### B4 — Composer: criar modelos de staging
+
+Primeira geração substantiva de modelos no Cursor; o staging é a fundação sobre a qual o Bloco C monta os marts (skill + `models/staging`). `dbt run` só no path de staging valida o SQL antes de avançar para marts.
 
 1. Abra o **Composer**.
 2. Anexe contexto com `@` (escolha no seletor):  
    `seeds/raw_orders.csv`, `seeds/raw_customers.csv`, `seeds/raw_products.csv`, `dbt_project.yml`
 3. Cole o prompt abaixo **literalmente**:
 
-<!-- O objetivo aqui é forçar o agente a trabalhar com a verdade do repo: dados de entrada reais + configuração real do projeto, sem inventar colunas ou nomes de refs. -->
+O objetivo aqui é forçar o agente a trabalhar com a verdade do repo: dados de entrada reais + configuração real do projeto, sem inventar colunas ou nomes de refs.
 
 ```text
 Usando @seeds/raw_orders.csv @seeds/raw_customers.csv @seeds/raw_products.csv e @dbt_project.yml, crie os modelos de staging stg_orders, stg_customers e stg_products em models/staging/. Use tipos compatíveis com Redshift, casts explícitos e snake_case. Não invente colunas além das que existem nos CSVs. Leia os seeds com {{ ref('raw_orders') }}, {{ ref('raw_customers') }} e {{ ref('raw_products') }} (os nomes dos seeds no dbt coincidem com o nome do arquivo CSV, sem a extensão .csv).
@@ -162,11 +176,13 @@ Usando @seeds/raw_orders.csv @seeds/raw_customers.csv @seeds/raw_products.csv e 
 dbt run -s path:models/staging
 ```
 
-<!-- Compila e executa só os modelos de staging para validar rapidamente se o SQL gerado pelo agente funciona antes de avançar para os marts. -->
+Compila e executa só os modelos de staging para validar rapidamente se o SQL gerado pelo agente funciona antes de avançar para os marts.
 
-<!-- Se sua versão do dbt rejeitar seletores por path: `dbt run -s stg_orders stg_customers stg_products` depois que os modelos existirem. -->
+Se sua versão do dbt rejeitar seletores por path: `dbt run -s stg_orders stg_customers stg_products` depois que os modelos existirem. 
 
 ### B5 — Corrigir erros no Chat (se houver)
+
+Reforça o ciclo “erro do terminal + @arquivo” usado no dia a dia; reexecutar o mesmo seletor isola a correção sem mudar outras partes do pipeline.
 
 1. Abra o **Chat**.
 2. Faça `@` no arquivo do modelo que falhou e cole o **erro do terminal** após o `dbt run`.
@@ -176,8 +192,8 @@ dbt run -s path:models/staging
 dbt run -s path:models/staging
 ```
 
-<!-- Ensina o ciclo “erro + @arquivo” que analistas usam no dia a dia. -->
-<!-- Reexecutar o mesmo seletor confirma se a correção resolveu o problema no ponto exato onde ele apareceu, sem introduzir novas variáveis. -->
+Ensina o ciclo “erro + @arquivo” que analistas usam no dia a dia.
+Reexecutar o mesmo seletor confirma se a correção resolveu o problema no ponto exato onde ele apareceu, sem introduzir novas variáveis.
 
 ---
 
